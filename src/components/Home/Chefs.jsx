@@ -19,7 +19,7 @@ const Chefs = () => {
       </div>
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
         {chefs.map((chef) => (
-          <div key={chef.id} className="bg-[#a8d969] rounded-lg shadow-md p-4 hover:bg-[#71bd46] focus:bg-[#71bd46]">
+          <div key={chef.id} className="bg-[#a8d969] rounded-lg shadow-md p-4">
             <img
               src={chef.image}
               alt={chef.name}
