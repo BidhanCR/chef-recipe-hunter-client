@@ -9,6 +9,8 @@ import Home from "./components/Home/Home.jsx";
 import Login from "./components/Login/Login.jsx";
 import Register from "./components/Register/Register.jsx";
 import Blogs from "./components/Blogs/Blogs.jsx";
+import Chefs from "./components/Home/Chefs.jsx";
+import ChefRecipes from "./components/ChefRecipes/ChefRecipes.jsx";
 
 const router = createBrowserRouter([
   {
@@ -30,7 +32,15 @@ const router = createBrowserRouter([
       {
         path: "/blogs",
         element: <Blogs></Blogs>
-      }
+      },
+      {
+        path: "/chefs",
+        element: <Chefs />,
+      },
+      {
+        path: "/chefs/:id",
+        element: <ChefRecipes />,
+      },
     ],
   },
 ]);
