@@ -12,7 +12,8 @@ const Header = () => {
     setIsMenuOpen(!isMenuOpen);
   };
 
-  const { user, logOut } = useContext(AuthContext);
+  const { user, logOut } =
+    useContext(AuthContext);
   const handleLogOut = () => {
     logOut()
       .then()
@@ -47,19 +48,11 @@ const Header = () => {
                   Blogs
                 </Link>
               </li>
-              {/* <li>
-                <Link
-                  to="/login"
-                  className="text-white hover:text-gray-600 transition duration-150 ease-in-out"
-                >
-                  Login
-                </Link>
-              </li> */}
+
               <li>
-                {user && (
-                  <FaUserCircle style={{ fontSize: "2rem" }}></FaUserCircle>
-                )}
+                
               </li>
+
               <li>
                 {user ? (
                   <button

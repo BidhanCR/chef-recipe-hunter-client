@@ -1,13 +1,18 @@
 /* eslint-disable no-unused-vars */
-import React, { useContext } from "react";
+import React, { useContext, useState } from "react";
 import { Link } from "react-router-dom";
 import { AuthContext } from "../../providers/AuthProvider";
+import { sendEmailVerification, updateProfile } from "firebase/auth";
 
 const Register = () => {
   const { createUser } = useContext(AuthContext);
+  const [error, setError] = useState("");
+  const [success, setSuccess] = useState("");
 
   const handleRegister = (event) => {
     event.preventDefault();
+    setSuccess("");
+    setError("");
     const form = event.target;
     const name = form.name.value;
     const email = form.email.value;
@@ -15,13 +20,56 @@ const Register = () => {
     const photo = form.photo.value;
     console.log(name, email, password, photo);
 
+    if (!/(?=.*[A-Z])/.test(password)) {
+      setError("Please add at least one uppercase");
+      return;
+    } else if (!/(?=.*[0-9].*[0-9])/.test(password)) {
+      setError("Please add at least two numbers");
+      return;
+    } else if (password.length < 6) {
+      setError("Please add at least 6 characters in your password");
+      return;
+    }
+
     createUser(email, password)
       .then((result) => {
         const createdUser = result.user;
         console.log(createdUser);
+        setError("");
+        event.target.reset();
+        setSuccess("User has created successfully");
+        sendVerificationEmail(result.user);
+        updateUserData(result.user, name);
       })
       .catch((error) => {
-        console.log(error);
+        if (error.code === "auth/weak-password") {
+          setError("Please add at least 6 characters in your password");
+        } else if (error.code === "auth/email-already-in-use") {
+          setError("This email is already registered");
+        } else if (error.code === "auth/invalid-email") {
+          setError("Please enter a valid email address");
+        } else {
+          setError(error.message);
+        }
+      });
+  };
+
+  const sendVerificationEmail = (user) => {
+    sendEmailVerification(user).then((result) => {
+      console.log(result);
+      alert("Please verify your email address");
+    });
+  };
+
+  const updateUserData = (user, name) => {
+    updateProfile(user, {
+      displayName: name,
+    })
+      .then(() => {
+        console.log("user name updated");
+      })
+      .catch((error) => {
+        setError(error.message);
       });
   };
 
@@ -97,6 +145,8 @@ const Register = () => {
               </div>
             </div>
           </form>
+          <p className="text-error">{error}</p>
+          <p className="text-[#71bd46]">{success}</p>
         </div>
       </div>
     </div>
