@@ -2,6 +2,8 @@
 /* eslint-disable no-unused-vars */
 import React, { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const ChefRecipes = () => {
   const { id } = useParams();
@@ -33,6 +35,7 @@ const ChefRecipes = () => {
 
   return (
     <div>
+      <ToastContainer />
       <div className="bg-gray-100 p-4">
         <div className="max-w-4xl mx-auto flex flex-wrap justify-center">
           <div className="md:w-1/2 w-full p-4">
@@ -49,10 +52,19 @@ const ChefRecipes = () => {
             <hr className="mb-5 border-[#71bd46] border-2" />
             <p className="text-gray-600 mb-4">{chef.bio}</p>
             <div className="flex justify-between items-center mb-4">
-              <p><span className="font-bold text-[#71bd46]">{chef.likes}</span> likes</p>
-              <p><span className="font-bold text-[#71bd46]">{chef.recipes}</span> recipes</p>
               <p>
-              <span className="font-bold text-[#71bd46]">{chef.experience}</span> years of experience
+                <span className="font-bold text-[#71bd46]">{chef.likes}</span>{" "}
+                likes
+              </p>
+              <p>
+                <span className="font-bold text-[#71bd46]">{chef.recipes}</span>{" "}
+                recipes
+              </p>
+              <p>
+                <span className="font-bold text-[#71bd46]">
+                  {chef.experience}
+                </span>{" "}
+                years of experience
               </p>
             </div>
           </div>
@@ -75,11 +87,21 @@ const ChefRecipes = () => {
                 alt={recipe.recipe_name}
                 className="w-full h-72 rounded-lg object-cover mb-4"
               />
-              <p className="border-2 border-indigo-600 bg-warning w-24 rounded-lg text-white glass absolute top-4 right-4">Rating: {recipe.rating}</p>
+              <p className="border-2 border-indigo-600 bg-warning w-24 rounded-lg text-white glass absolute top-4 right-4">
+                Rating: {recipe.rating}
+              </p>
               <h2 className="text-xl font-semibold mb-2">
                 {recipe.recipe_name}
               </h2>
-              <button className="btn btn-warning text-white w-full hover:bg-yellow-600">
+              <button
+                className="btn btn-warning text-white w-full hover:bg-yellow-600"
+                onClick={() => {
+                  toast.success(
+                    `${recipe.recipe_name} is now your favorite recipe!`
+                  );
+                  event.target.disabled = true;
+                }}
+              >
                 Add to Favourite
               </button>
               <button
@@ -97,14 +119,16 @@ const ChefRecipes = () => {
                         <h3 className="text-lg font-extrabold leading-6 font-medium text-gray-900">
                           {selectedRecipe.recipe_name}
                         </h3>
-                        <hr className="my-4 border-[#71bd46] border-2"/>
+                        <hr className="my-4 border-[#71bd46] border-2" />
                         <div className="mt-2">
                           <p className="text-sm leading-5 text-gray-500 text-left">
                             {selectedRecipe.recipe_description}
                           </p>
-                          <h4 className="font-extrabold text-lg my-4">Ingredients</h4>
-                          <hr className="my-4 border-[#71bd46] border-2"/>
-                          
+                          <h4 className="font-extrabold text-lg my-4">
+                            Ingredients
+                          </h4>
+                          <hr className="my-4 border-[#71bd46] border-2" />
+
                           <ul className="list-disc list-inside text-left">
                             {selectedRecipe.ingredients.map(
                               (ingredient, index) => (
@@ -117,9 +141,13 @@ const ChefRecipes = () => {
                               )
                             )}
                           </ul>
-                          <h4 className="text-lg font-extrabold mt-4">Cooking Method</h4>
-                          <hr className="my-4 border-[#71bd46] border-2"/>
-                          <p className="text-left">{selectedRecipe.cooking_method}</p>
+                          <h4 className="text-lg font-extrabold mt-4">
+                            Cooking Method
+                          </h4>
+                          <hr className="my-4 border-[#71bd46] border-2" />
+                          <p className="text-left">
+                            {selectedRecipe.cooking_method}
+                          </p>
                         </div>
                       </div>
                       <div className="mt-5 sm:mt-6">
