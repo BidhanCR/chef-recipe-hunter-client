@@ -26,7 +26,15 @@ const Login = () => {
         navigate(from, { replace: true });
       })
       .catch((error) => {
-        setError(error.message)
+        if (error.code === "auth/user-not-found") {
+          setError("User not found");
+        } else if (error.code === "auth/wrong-password") {
+          setError("Wrong password, Try again");
+        } else if (error.code === "auth/invalid-email") {
+          setError("Please enter a valid email address");
+        } else {
+          setError(error.message);
+        }
       });
   };
   return (
