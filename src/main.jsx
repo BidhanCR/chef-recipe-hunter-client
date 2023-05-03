@@ -14,11 +14,13 @@ import ChefRecipes from "./components/ChefRecipes/ChefRecipes.jsx";
 import AuthProvider from "./providers/AuthProvider.jsx";
 import PrivateRoute from "./Routes/PrivateRoutes.jsx";
 import Recipes from "./components/Recipes/Recipes.jsx";
+import Errorpage from "./components/Errorpage/Errorpage.jsx";
 
 const router = createBrowserRouter([
   {
     path: "/",
     element: <Main></Main>,
+    errorElement: <Errorpage></Errorpage>,
     children: [
       {
         path: "/",

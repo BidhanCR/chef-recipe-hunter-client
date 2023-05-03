@@ -11,7 +11,7 @@ const Header = () => {
 
   const isActive = (path) => {
     return location.pathname === path ? "text-red-900" : "text-white";
-  }
+  };
   const toggleMenu = () => {
     setIsMenuOpen(!isMenuOpen);
   };
@@ -24,7 +24,7 @@ const Header = () => {
         console.log(error);
       });
   };
-  
+
   return (
     <nav className="bg-[#71bd46] shadow-lg">
       <div className="container mx-auto px-4">
@@ -37,17 +37,14 @@ const Header = () => {
           <div className="hidden md:block">
             <ul className="flex items-center space-x-4">
               <li>
-                <Link
-                  to="/"
-                  className={`text-white text-2xl ${isActive('/')}`}
-                >
+                <Link to="/" className={` text-2xl ${isActive("/")}`}>
                   Home
                 </Link>
               </li>
               <li>
                 <Link
                   to="/blogs"
-                  className={`text-white text-2xl ${isActive('/blogs')}`}
+                  className={`text-2xl ${isActive("/blogs")}`}
                 >
                   Blogs
                 </Link>
@@ -55,7 +52,7 @@ const Header = () => {
               <li>
                 <Link
                   to="/recipes"
-                  className={`text-white text-2xl ${isActive('/recipes')}`}
+                  className={` text-2xl ${isActive("/recipes")}`}
                 >
                   Recipes
                 </Link>
@@ -64,15 +61,12 @@ const Header = () => {
                 {user ? (
                   <button
                     className="btn btn-success text-white hover:btn-accent"
-                    
                     onClick={handleLogOut}
                   >
                     Logout
                   </button>
                 ) : (
-                  <Link
-                    to="/login"
-                  >
+                  <Link to="/login">
                     <button className="btn btn-success text-white hover:btn-accent">
                       Login
                     </button>
