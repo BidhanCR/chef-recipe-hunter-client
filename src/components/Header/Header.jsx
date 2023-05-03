@@ -1,7 +1,9 @@
+/* eslint-disable react/jsx-no-undef */
 /* eslint-disable no-unused-vars */
-import { useState } from 'react';
-import { Link } from 'react-router-dom';
-import { FaBars, FaTimes } from 'react-icons/fa';
+import { useContext, useState } from "react";
+import { Link } from "react-router-dom";
+import { FaBars, FaTimes, FaUserCircle } from "react-icons/fa";
+import { AuthContext } from "../../providers/AuthProvider";
 
 const Header = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -10,6 +12,14 @@ const Header = () => {
     setIsMenuOpen(!isMenuOpen);
   };
 
+  const { user, logOut } = useContext(AuthContext);
+  const handleLogOut = () => {
+    logOut()
+      .then()
+      .catch((error) => {
+        console.log(error);
+      });
+  };
   return (
     <nav className="bg-[#71bd46] shadow-lg">
       <div className="container mx-auto px-4">
@@ -37,21 +47,35 @@ const Header = () => {
                   Blogs
                 </Link>
               </li>
-              <li>
+              {/* <li>
                 <Link
                   to="/login"
                   className="text-white hover:text-gray-600 transition duration-150 ease-in-out"
                 >
                   Login
                 </Link>
+              </li> */}
+              <li>
+                {user && (
+                  <FaUserCircle style={{ fontSize: "2rem" }}></FaUserCircle>
+                )}
               </li>
               <li>
-                <Link
-                  to="/register"
-                  className="px-4 py-2 rounded bg-[rgb(168,217,105)] text-white hover:bg-a8d969 transition duration-150 ease-in-out"
-                >
-                  Register
-                </Link>
+                {user ? (
+                  <button
+                    className="text-white hover:text-gray-600 transition duration-150 ease-in-out"
+                    onClick={handleLogOut}
+                  >
+                    Logout
+                  </button>
+                ) : (
+                  <Link
+                    to="/login"
+                    className="text-white hover:text-gray-600 transition duration-150 ease-in-out"
+                  >
+                    <button>Login</button>
+                  </Link>
+                )}
               </li>
             </ul>
           </div>
@@ -66,7 +90,7 @@ const Header = () => {
           </div>
         </div>
       </div>
-      <div className={`md:hidden ${isMenuOpen ? 'block' : 'hidden'}`}>
+      <div className={`md:hidden ${isMenuOpen ? "block" : "hidden"}`}>
         <div className="px-2 pt-2 pb-3 space-y-1 sm:px-3">
           <Link
             to="/"
@@ -85,12 +109,6 @@ const Header = () => {
             className="block px-3 py-2 rounded-md text-base font-medium text-white hover:text-gray-900 hover:bg-gray-50"
           >
             Login
-          </Link>
-          <Link
-            to="/register"
-            className="block px-3 py-2 rounded-md text-base font-medium text-white bg-[#a8d969] hover:bg-gray-50"
-          >
-            Register
           </Link>
         </div>
       </div>
