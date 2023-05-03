@@ -13,6 +13,7 @@ import Chefs from "./components/Home/Chefs.jsx";
 import ChefRecipes from "./components/ChefRecipes/ChefRecipes.jsx";
 import AuthProvider from "./providers/AuthProvider.jsx";
 import PrivateRoute from "./Routes/PrivateRoutes.jsx";
+import Recipes from "./components/Recipes/Recipes.jsx";
 
 const router = createBrowserRouter([
   {
@@ -51,6 +52,10 @@ const router = createBrowserRouter([
           </PrivateRoute>
         ),
       },
+      {
+        path: "/recipes",
+        element: <Recipes></Recipes>
+      }
     ],
   },
 ]);

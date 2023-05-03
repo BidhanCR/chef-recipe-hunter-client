@@ -1,19 +1,22 @@
 /* eslint-disable react/jsx-no-undef */
 /* eslint-disable no-unused-vars */
 import { useContext, useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import { FaBars, FaTimes, FaUserCircle } from "react-icons/fa";
 import { AuthContext } from "../../providers/AuthProvider";
 
 const Header = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const location = useLocation();
 
+  const isActive = (path) => {
+    return location.pathname === path ? "text-red-900" : "text-white";
+  }
   const toggleMenu = () => {
     setIsMenuOpen(!isMenuOpen);
   };
 
-  const { user, logOut } =
-    useContext(AuthContext);
+  const { user, logOut } = useContext(AuthContext);
   const handleLogOut = () => {
     logOut()
       .then()
@@ -21,6 +24,7 @@ const Header = () => {
         console.log(error);
       });
   };
+  
   return (
     <nav className="bg-[#71bd46] shadow-lg">
       <div className="container mx-auto px-4">
@@ -35,7 +39,7 @@ const Header = () => {
               <li>
                 <Link
                   to="/"
-                  className="text-white hover:text-gray-600 transition duration-150 ease-in-out"
+                  className={`text-white text-2xl ${isActive('/')}`}
                 >
                   Home
                 </Link>
@@ -43,20 +47,24 @@ const Header = () => {
               <li>
                 <Link
                   to="/blogs"
-                  className="text-white hover:text-gray-600 transition duration-150 ease-in-out"
+                  className={`text-white text-2xl ${isActive('/blogs')}`}
                 >
                   Blogs
                 </Link>
               </li>
-
               <li>
-                
+                <Link
+                  to="/recipes"
+                  className={`text-white text-2xl ${isActive('/recipes')}`}
+                >
+                  Recipes
+                </Link>
               </li>
-
               <li>
                 {user ? (
                   <button
-                    className="text-white hover:text-gray-600 transition duration-150 ease-in-out"
+                    className="btn btn-success text-white hover:btn-accent"
+                    
                     onClick={handleLogOut}
                   >
                     Logout
@@ -64,9 +72,10 @@ const Header = () => {
                 ) : (
                   <Link
                     to="/login"
-                    className="text-white hover:text-gray-600 transition duration-150 ease-in-out"
                   >
-                    <button>Login</button>
+                    <button className="btn btn-success text-white hover:btn-accent">
+                      Login
+                    </button>
                   </Link>
                 )}
               </li>
@@ -98,11 +107,28 @@ const Header = () => {
             Blogs
           </Link>
           <Link
-            to="/login"
+            to="/recipes"
             className="block px-3 py-2 rounded-md text-base font-medium text-white hover:text-gray-900 hover:bg-gray-50"
           >
-            Login
+            Recipes
           </Link>
+          {user ? (
+            <button
+              className="btn btn-success text-white hover:btn-accent w-full md:w-auto"
+              onClick={handleLogOut}
+            >
+              Logout
+            </button>
+          ) : (
+            <Link
+              to="/login"
+              className="text-white hover:text-gray-600 transition duration-150 ease-in-out w-full md:w-auto"
+            >
+              <button className="btn btn-success text-white hover:btn-accent w-full md:w-auto">
+                Login
+              </button>
+            </Link>
+          )}
         </div>
       </div>
     </nav>
