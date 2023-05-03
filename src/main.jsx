@@ -12,6 +12,7 @@ import Blogs from "./components/Blogs/Blogs.jsx";
 import Chefs from "./components/Home/Chefs.jsx";
 import ChefRecipes from "./components/ChefRecipes/ChefRecipes.jsx";
 import AuthProvider from "./providers/AuthProvider.jsx";
+import PrivateRoute from "./Routes/PrivateRoutes.jsx";
 
 const router = createBrowserRouter([
   {
@@ -36,11 +37,19 @@ const router = createBrowserRouter([
       },
       {
         path: "/chefs",
-        element: <Chefs />,
+        element: (
+          <PrivateRoute>
+            <Chefs></Chefs>
+          </PrivateRoute>
+        ),
       },
       {
         path: "/chefs/:id",
-        element: <ChefRecipes />,
+        element: (
+          <PrivateRoute>
+            <ChefRecipes></ChefRecipes>
+          </PrivateRoute>
+        ),
       },
     ],
   },
