@@ -2,12 +2,19 @@
 import React, { useContext, useState } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { AuthContext } from "../../providers/AuthProvider";
+import { FaGithub, FaGoogle } from "react-icons/fa";
+import { GithubAuthProvider, GoogleAuthProvider, getAuth, signInWithPopup } from "firebase/auth";
+const auth = getAuth();
 
 const Login = () => {
   const { signIn } = useContext(AuthContext);
   const navigate = useNavigate();
   const location = useLocation();
-  const [error, setError] = useState('');
+  const [error, setError] = useState("");
+
+  const googleProvider = new GoogleAuthProvider();
+  const githubProvider = new GithubAuthProvider();
+
   const from = location.state?.from?.pathname || "/";
 
   const handleSignIn = (event) => {
@@ -15,7 +22,7 @@ const Login = () => {
     const form = event.target;
     const email = form.email.value;
     const password = form.password.value;
-    setError('');
+    setError("");
     console.log(email, password);
 
     signIn(email, password)
@@ -37,6 +44,34 @@ const Login = () => {
         }
       });
   };
+
+  // sign in With google
+  const signInWithGoogle = () => {
+    
+    signInWithPopup(auth, googleProvider)
+      .then((result) => {
+        const user = result.user;
+        console.log(user);
+        navigate(from, { replace: true });
+      })
+      .catch((error) => {
+        console.log("error", error.message);
+      });
+  };
+  
+  // sign in with github
+  const signInWithGithub = () =>{
+    signInWithPopup(auth, githubProvider)
+    .then(result =>{
+      const user = result.user;
+      console.log(user);
+      navigate(from, { replace: true });
+    })
+    .catch((error) => {
+      console.log("error", error.message);
+    });
+  }
+
   return (
     <div className="hero min-h-screen bg-base-200">
       <div className="hero-content flex-col lg:flex-col">
@@ -86,6 +121,19 @@ const Login = () => {
             </div>
           </form>
           <p className="text-red-400">{error}</p>
+        </div>
+        <div className="flex justify-center flex-col lg:flex-row">
+          <button
+            className="bg-red-600 hover:bg-red-700 text-white font-bold py-2 px-4 rounded-full flex items-center justify-center mb-2 lg:mr-2 lg:mb-0"
+            onClick={signInWithGoogle}
+          >
+            <FaGoogle className="mr-2" />
+            Login with Google
+          </button>
+          <button className="bg-gray-800 hover:bg-gray-900 text-white font-bold py-2 px-4 rounded-full flex items-center justify-center" onClick={signInWithGithub}>
+            <FaGithub className="mr-2" />
+            Login with Github
+          </button>
         </div>
       </div>
     </div>

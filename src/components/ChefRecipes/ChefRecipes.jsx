@@ -24,7 +24,7 @@ const ChefRecipes = () => {
   };
 
   useEffect(() => {
-    fetch(`http://localhost:5000/chefs/${id}`)
+    fetch(`https://foodie-frenzy-server-bidhancr.vercel.app/chefs/${id}`)
       .then((response) => response.json())
       .then((data) => setChef(data));
   }, [id]);
@@ -36,7 +36,7 @@ const ChefRecipes = () => {
   return (
     <div>
       <ToastContainer />
-      <div className="bg-gray-100 p-4">
+      <div className="bg-[#e8f1ea] p-4">
         <div className="max-w-4xl mx-auto flex flex-wrap justify-center">
           <div className="md:w-1/2 w-full p-4">
             <img
@@ -80,7 +80,7 @@ const ChefRecipes = () => {
           {chef.favorite_dishes.map((recipe) => (
             <div
               key={recipe.recipe_name}
-              className="bg-[#a8d969] rounded-lg shadow-md p-4 hover:bg-[#71bd46] focus:bg-[#71bd46] relative"
+              className="bg-[#e8f1ea] rounded-lg shadow-md p-4 hover:bg-[#b3ccb9] focus:bg-[#71bd46] relative"
             >
               <img
                 src={recipe.recipe_image}
@@ -106,7 +106,7 @@ const ChefRecipes = () => {
               </button>
               <button
                 onClick={() => openModal(recipe)}
-                className="btn glass hover:bg-[#255d05] font-bold text-2xl text-white w-full mt-2"
+                className="btn bg-[#71bd46] hover:bg-[#255d05] font-bold text-2xl text-white w-full mt-2"
               >
                 View Details
               </button>
@@ -114,7 +114,7 @@ const ChefRecipes = () => {
                 <div className="fixed z-10 inset-0 overflow-y-auto">
                   <div className="flex items-center justify-center min-h-screen px-4">
                     <div className="fixed inset-0"></div>
-                    <div className="bg-white rounded-lg px-4 pt-5 pb-4 text-left overflow-hidden shadow-xl transform transition-all sm:max-w-lg sm:w-full sm:p-6 border-2 border-warning">
+                    <div className="bg-[#e8f1ea] rounded-lg px-4 pt-5 pb-4 text-left overflow-hidden shadow-xl transform transition-all sm:max-w-lg sm:w-full sm:p-6 border-2 border-warning">
                       <div className="mt-3 text-center sm:mt-5">
                         <h3 className="text-lg font-extrabold leading-6 font-medium text-gray-900">
                           {selectedRecipe.recipe_name}

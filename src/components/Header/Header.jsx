@@ -26,7 +26,7 @@ const Header = () => {
   };
 
   return (
-    <nav className="bg-[#71bd46] shadow-lg">
+    <nav className="bg-[#71bd46] shadow-lg rounded-t-lg">
       <div className="container mx-auto px-4">
         <div className="flex justify-between items-center h-16">
           <div className="flex-shrink-0">
@@ -42,10 +42,7 @@ const Header = () => {
                 </Link>
               </li>
               <li>
-                <Link
-                  to="/blogs"
-                  className={`text-2xl ${isActive("/blogs")}`}
-                >
+                <Link to="/blogs" className={`text-2xl ${isActive("/blogs")}`}>
                   Blogs
                 </Link>
               </li>
@@ -57,6 +54,25 @@ const Header = () => {
                   Recipes
                 </Link>
               </li>
+
+              {/* user profile */}
+              {user ? (
+                <li className="flex items-center justify-center">
+                  {user.photoURL ? (
+                    <img
+                      className="h-8 w-8 rounded-full object-cover"
+                      src={user.photoURL}
+                      alt={user.displayName}
+                      title={user.displayName}
+                    />
+                  ) : (
+                    <FaUserCircle className="h-8 w-8 text-gray-900" />
+                  )}
+                </li>
+              ) : (
+                <FaUserCircle className="h-8 w-8 text-gray-900" />
+              )}
+
               <li>
                 {user ? (
                   <button
@@ -106,6 +122,26 @@ const Header = () => {
           >
             Recipes
           </Link>
+          {/* user profile */}
+          {user ? (
+            <li className="flex items-center justify-center">
+              {user.photoURL ? (
+                <img
+                  className="h-8 w-8 md:h-10 md:w-10 lg:h-12 lg:w-12 rounded-full object-cover"
+                  src={user.photoURL}
+                  alt={user.displayName}
+                />
+              ) : (
+                <FaUserCircle className="h-8 w-8 md:h-10 md:w-10 lg:h-12 lg:w-12 text-gray-900" />
+              )}
+              <span className="ml-2 text-sm md:text-base lg:text-lg font-bold">
+                {user.displayName}
+              </span>
+            </li>
+          ) : (
+            <FaUserCircle className="h-8 w-8 md:h-10 md:w-10 lg:h-12 lg:w-12 text-gray-900" />
+          )}
+
           {user ? (
             <button
               className="btn btn-success text-white hover:btn-accent w-full md:w-auto"

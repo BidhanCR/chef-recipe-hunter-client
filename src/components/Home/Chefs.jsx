@@ -7,7 +7,7 @@ const Chefs = () => {
   const [chefs, setChefs] = useState([]);
 
   useEffect(() => {
-    fetch("http://localhost:5000")
+    fetch("https://foodie-frenzy-server-bidhancr.vercel.app/")
       .then((response) => response.json())
       .then((data) => setChefs(data));
   }, []);
@@ -20,7 +20,7 @@ const Chefs = () => {
       </div>
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
         {chefs.map((chef) => (
-          <div key={chef.id} className="bg-[#a8d969] rounded-lg shadow-md p-4">
+          <div key={chef.id} className="bg-[#e8f1ea] rounded-lg shadow-md p-4">
             <img
               src={chef.image}
               alt={chef.name}

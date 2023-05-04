@@ -5,9 +5,11 @@ import { AuthContext } from "../../providers/AuthProvider";
 import { sendEmailVerification, updateProfile } from "firebase/auth";
 
 const Register = () => {
-  const { createUser } = useContext(AuthContext);
+  const { createUser, logOut } = useContext(AuthContext);
   const [error, setError] = useState("");
   const [success, setSuccess] = useState("");
+  
+  
 
   const handleRegister = (event) => {
     event.preventDefault();
@@ -21,13 +23,21 @@ const Register = () => {
     console.log(name, email, password, photo);
 
     if (!/(?=.*[A-Z])/.test(password)) {
-      setError("Please add at least one uppercase");
+      setError("Please add at least one uppercase letter.");
       return;
     } else if (!/(?=.*[0-9].*[0-9])/.test(password)) {
-      setError("Please add at least two numbers");
+      setError("Please add at least two numbers.");
+      return;
+    } else if (!/(?=.*[!@#$%^&*])/.test(password)) {
+      setError("Please add at least one special character.");
       return;
     } else if (password.length < 6) {
-      setError("Please add at least 6 characters in your password");
+      setError("Please add at least 6 characters in your password.");
+      return;
+    }
+
+    if (!/\b(https?:\/\/\S+\.(?:jpg|jpeg|gif|png)\b)/i.test(photo)) {
+      setError("Please input valid photo url");
       return;
     }
 
@@ -38,8 +48,10 @@ const Register = () => {
         setError("");
         event.target.reset();
         setSuccess("User has created successfully");
-        sendVerificationEmail(result.user);
-        updateUserData(result.user, name);
+        handleLogOut();
+        // sendVerificationEmail(result.user);
+        updateUserData(result.user, name, photo);
+        
       })
       .catch((error) => {
         if (error.code === "auth/weak-password") {
@@ -53,17 +65,25 @@ const Register = () => {
         }
       });
   };
-
-  const sendVerificationEmail = (user) => {
-    sendEmailVerification(user).then((result) => {
-      console.log(result);
-      alert("Please verify your email address");
-    });
+  const handleLogOut = () => {
+    logOut()
+      .then()
+      .catch((error) => {
+        console.log(error);
+      });
   };
 
-  const updateUserData = (user, name) => {
+  // const sendVerificationEmail = (user) => {
+  //   sendEmailVerification(user).then((result) => {
+  //     console.log(result);
+  //     alert("Please verify your email address");
+  //   });
+  // };
+
+  const updateUserData = (user, name, photo) => {
     updateProfile(user, {
       displayName: name,
+      photoURL: photo,
     })
       .then(() => {
         console.log("user name updated");
@@ -123,7 +143,7 @@ const Register = () => {
                   <span className="label-text">Password</span>
                 </label>
                 <input
-                  type="text"
+                  type="password"
                   name="password"
                   placeholder="password"
                   className="input input-bordered"

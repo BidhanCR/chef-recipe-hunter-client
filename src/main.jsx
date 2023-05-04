@@ -56,7 +56,9 @@ const router = createBrowserRouter([
       },
       {
         path: "/recipes",
-        element: <Recipes></Recipes>
+        element: <PrivateRoute>
+          <Recipes></Recipes>
+        </PrivateRoute>
       }
     ],
   },
