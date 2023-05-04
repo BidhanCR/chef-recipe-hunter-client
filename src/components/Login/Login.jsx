@@ -1,9 +1,17 @@
+/* eslint-disable no-undef */
 /* eslint-disable no-unused-vars */
 import React, { useContext, useState } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { AuthContext } from "../../providers/AuthProvider";
 import { FaGithub, FaGoogle } from "react-icons/fa";
-import { GithubAuthProvider, GoogleAuthProvider, getAuth, signInWithPopup } from "firebase/auth";
+import {
+  GithubAuthProvider,
+  GoogleAuthProvider,
+  getAuth,
+  signInWithPopup,
+} from "firebase/auth";
+import { FaEye, FaEyeSlash } from "react-icons/fa";
+
 const auth = getAuth();
 
 const Login = () => {
@@ -11,9 +19,15 @@ const Login = () => {
   const navigate = useNavigate();
   const location = useLocation();
   const [error, setError] = useState("");
+  const [passwordVisible, setPasswordVisible] = useState(false);
 
   const googleProvider = new GoogleAuthProvider();
   const githubProvider = new GithubAuthProvider();
+
+  // password visibility
+  const togglePasswordVisibility = () => {
+    setPasswordVisible(!passwordVisible);
+  };
 
   const from = location.state?.from?.pathname || "/";
 
@@ -47,7 +61,6 @@ const Login = () => {
 
   // sign in With google
   const signInWithGoogle = () => {
-    
     signInWithPopup(auth, googleProvider)
       .then((result) => {
         const user = result.user;
@@ -58,19 +71,19 @@ const Login = () => {
         console.log("error", error.message);
       });
   };
-  
+
   // sign in with github
-  const signInWithGithub = () =>{
+  const signInWithGithub = () => {
     signInWithPopup(auth, githubProvider)
-    .then(result =>{
-      const user = result.user;
-      console.log(user);
-      navigate(from, { replace: true });
-    })
-    .catch((error) => {
-      console.log("error", error.message);
-    });
-  }
+      .then((result) => {
+        const user = result.user;
+        console.log(user);
+        navigate(from, { replace: true });
+      })
+      .catch((error) => {
+        console.log("error", error.message);
+      });
+  };
 
   return (
     <div className="hero min-h-screen bg-base-200">
@@ -97,13 +110,28 @@ const Login = () => {
                 <label className="label">
                   <span className="label-text">Password</span>
                 </label>
-                <input
-                  type="password"
-                  name="password"
-                  placeholder="password"
-                  className="input input-bordered"
-                  required
-                />
+                <div className="relative">
+                  <input
+                    type={passwordVisible ? "text" : "password"}
+                    name="password"
+                    placeholder="password"
+                    className="input input-bordered pr-10"
+                    required
+                  />
+                  <button
+                    type="button"
+                    className="absolute inset-y-0 right-2 flex items-center px-2 text-gray-700"
+                    onClick={togglePasswordVisibility}
+                  >
+                    {passwordVisible ? (
+                      <FaEye className="w-5 h-5" />
+                    ) : (
+                      <FaEyeSlash className="w-5 h-5" />
+                    )}
+                  </button>
+                </div>
+              </div>
+              <div>
                 <label className="label">
                   <p className="label-text">
                     New to FoodieFrenzy? Please{" "}
@@ -130,7 +158,10 @@ const Login = () => {
             <FaGoogle className="mr-2" />
             Login with Google
           </button>
-          <button className="bg-gray-800 hover:bg-gray-900 text-white font-bold py-2 px-4 rounded-full flex items-center justify-center" onClick={signInWithGithub}>
+          <button
+            className="bg-gray-800 hover:bg-gray-900 text-white font-bold py-2 px-4 rounded-full flex items-center justify-center"
+            onClick={signInWithGithub}
+          >
             <FaGithub className="mr-2" />
             Login with Github
           </button>

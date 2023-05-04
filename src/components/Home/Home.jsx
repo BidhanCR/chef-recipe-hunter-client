@@ -7,6 +7,8 @@ import "swiper/swiper-bundle.css";
 import Chefs from "./Chefs";
 import { Circles } from "react-loader-spinner";
 import { Link } from "react-router-dom";
+import Marquee from "react-fast-marquee";
+import Reviews from "../Reviews/Reviews";
 
 SwiperCore.use([Navigation, Pagination, Autoplay]);
 
@@ -19,13 +21,22 @@ const Home = () => {
   }, []);
 
   useEffect(() => {
-    fetch("http://localhost:5000/recipes")
+    fetch("https://foodie-frenzy-server-bidhancr.vercel.app/recipes")
       .then((response) => response.json())
       .then((data) => setRecipes(data.slice(0, 5))); // show only 5 recipe slider on the home page
   }, []);
 
   return (
     <>
+      <div style={{ display: "flex", alignItems: "center", height: "40px" }}>
+        <Marquee gradient={false}>
+          <h1>
+            Welcome to <span className="bg-yellow-200">FoodieFrenzy</span>!
+            Discover Delicious Recipes and Food Inspiration on our Website.
+          </h1>
+        </Marquee>
+      </div>
+
       {/* banner slider */}
       <Swiper
         speed={1000}
@@ -63,7 +74,7 @@ const Home = () => {
           />
         </SwiperSlide>
       </Swiper>
-      
+
       {isLoading ? (
         <div
           style={{
@@ -78,13 +89,16 @@ const Home = () => {
       ) : (
         <Chefs />
       )}
-     
-     {/* trending slider  */}
+
+      {/* trending slider  */}
       <div className="py-8 bg-gray-100 mt-12 rounded-lg">
         <div className="container mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex items-center justify-between mb-4">
             <h2 className="text-3xl font-bold">Trending Recipes</h2>
-            <Link to="/recipes" className="text-green-600 hover:text-green-800 text-2xl">
+            <Link
+              to="/recipes"
+              className="text-green-600 hover:text-green-800 text-2xl"
+            >
               See More
             </Link>
           </div>
@@ -104,7 +118,7 @@ const Home = () => {
           >
             {recipes.map((recipe) => (
               <SwiperSlide key={recipe.id}>
-                <Link to='/recipes'>
+                <Link to="/recipes">
                   <div className="bg-white shadow rounded-md overflow-hidden h-full">
                     <img
                       src={recipe.img}
@@ -120,7 +134,8 @@ const Home = () => {
                       </p>
                       <div className="flex items-center justify-between mt-4">
                         <div className="flex items-center">
-                          $<span className="text-yellow-600">
+                          $
+                          <span className="text-yellow-600">
                             {recipe.price}
                           </span>
                         </div>
@@ -133,6 +148,7 @@ const Home = () => {
           </Swiper>
         </div>
       </div>
+      <Reviews></Reviews>
     </>
   );
 };

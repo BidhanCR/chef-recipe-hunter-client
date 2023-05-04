@@ -3,13 +3,19 @@ import React, { useContext, useState } from "react";
 import { Link } from "react-router-dom";
 import { AuthContext } from "../../providers/AuthProvider";
 import { sendEmailVerification, updateProfile } from "firebase/auth";
+import { FaEye, FaEyeSlash } from "react-icons/fa";
 
 const Register = () => {
+  
   const { createUser, logOut } = useContext(AuthContext);
   const [error, setError] = useState("");
   const [success, setSuccess] = useState("");
-  
-  
+  const [passwordVisible, setPasswordVisible] = useState(false);
+
+  // password visibility
+  const togglePasswordVisibility = () => {
+    setPasswordVisible(!passwordVisible);
+  };
 
   const handleRegister = (event) => {
     event.preventDefault();
@@ -22,6 +28,7 @@ const Register = () => {
     const photo = form.photo.value;
     console.log(name, email, password, photo);
 
+    // password validations
     if (!/(?=.*[A-Z])/.test(password)) {
       setError("Please add at least one uppercase letter.");
       return;
@@ -35,12 +42,14 @@ const Register = () => {
       setError("Please add at least 6 characters in your password.");
       return;
     }
-
+     
+    // photo url validations
     if (!/\b(https?:\/\/\S+\.(?:jpg|jpeg|gif|png)\b)/i.test(photo)) {
       setError("Please input valid photo url");
       return;
     }
 
+    // for creating user
     createUser(email, password)
       .then((result) => {
         const createdUser = result.user;
@@ -51,7 +60,6 @@ const Register = () => {
         handleLogOut();
         // sendVerificationEmail(result.user);
         updateUserData(result.user, name, photo);
-        
       })
       .catch((error) => {
         if (error.code === "auth/weak-password") {
@@ -65,6 +73,8 @@ const Register = () => {
         }
       });
   };
+  
+  // handling user logout
   const handleLogOut = () => {
     logOut()
       .then()
@@ -80,6 +90,7 @@ const Register = () => {
   //   });
   // };
 
+  // updating user profile data
   const updateUserData = (user, name, photo) => {
     updateProfile(user, {
       displayName: name,
@@ -142,16 +153,31 @@ const Register = () => {
                 <label className="label">
                   <span className="label-text">Password</span>
                 </label>
-                <input
-                  type="password"
-                  name="password"
-                  placeholder="password"
-                  className="input input-bordered"
-                  required
-                />
+                <div className="relative">
+                  <input
+                    type={passwordVisible ? "text" : "password"}
+                    name="password"
+                    placeholder="password"
+                    className="input input-bordered pr-10"
+                    required
+                  />
+                  <button
+                    type="button"
+                    className="absolute inset-y-0 right-0 flex items-center px-2 text-gray-700"
+                    onClick={togglePasswordVisibility}
+                  >
+                    {passwordVisible ? (
+                      <FaEye className="w-5 h-5" />
+                    ) : (
+                      <FaEyeSlash className="w-5 h-5" />
+                    )}
+                  </button>
+                </div>
+              </div>
+              <div>
                 <label className="label">
                   <p className="label-text">
-                    New to FoodieFrenzy? Please{" "}
+                    Already have an account? Please{" "}
                     <Link className="link" to="/login">
                       Login
                     </Link>

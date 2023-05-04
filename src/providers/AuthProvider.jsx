@@ -12,6 +12,7 @@ import app from "../Firebase/Firebase.config";
 import { useEffect } from "react";
 import { useState } from "react";
 
+
 export const AuthContext = createContext(null);
 
 const auth = getAuth(app);

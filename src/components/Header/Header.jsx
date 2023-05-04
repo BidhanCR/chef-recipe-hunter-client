@@ -30,7 +30,7 @@ const Header = () => {
       <div className="container mx-auto px-4">
         <div className="flex justify-between items-center h-16">
           <div className="flex-shrink-0">
-            <Link to="/" className="text-xl font-bold text-white">
+            <Link to="/" className="text-4xl font-bold text-white">
               FoodieFrenzy
             </Link>
           </div>
