@@ -1,5 +1,4 @@
-/* eslint-disable react/jsx-no-undef */
-/* eslint-disable no-unused-vars */
+
 import { useContext, useState } from "react";
 import { Link, useLocation } from "react-router-dom";
 import { FaBars, FaTimes, FaUserCircle } from "react-icons/fa";
