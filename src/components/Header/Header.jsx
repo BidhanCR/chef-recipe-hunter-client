@@ -29,7 +29,7 @@ const Header = () => {
       <div className="container mx-auto px-4">
         <div className="flex justify-between items-center h-16">
           <div className="flex-shrink-0">
-            <Link to="/" className="text-4xl font-bold text-white">
+            <Link to="/" className="text-3xl font-bold text-white">
               FoodieFrenzy
             </Link>
           </div>
@@ -89,6 +89,27 @@ const Header = () => {
                 )}
               </li>
             </ul>
+            
+          </div>
+          <div className="md:hidden">
+          {user ? (
+            <div className="flex items-center justify-center">
+              {user.photoURL ? (
+                <img
+                  className="h-8 w-8 md:h-10 md:w-10 lg:h-12 lg:w-12 rounded-full object-cover"
+                  src={user.photoURL}
+                  alt={user.displayName}
+                />
+              ) : (
+                <FaUserCircle className="h-8 w-8 md:h-10 md:w-10 lg:h-12 lg:w-12" />
+              )}
+              <span className="ml-2 text-sm md:text-base lg:text-lg font-bold">
+                {user.displayName}
+              </span>
+            </div>
+          ) : (
+            <FaUserCircle className="h-8 w-8 md:h-10 md:w-10 lg:h-12 lg:w-12 text-gray-900" />
+          )}
           </div>
           <div className="md:hidden flex items-center">
             <button
@@ -122,24 +143,7 @@ const Header = () => {
             Recipes
           </Link>
           {/* user profile */}
-          {user ? (
-            <li className="flex items-center justify-center">
-              {user.photoURL ? (
-                <img
-                  className="h-8 w-8 md:h-10 md:w-10 lg:h-12 lg:w-12 rounded-full object-cover"
-                  src={user.photoURL}
-                  alt={user.displayName}
-                />
-              ) : (
-                <FaUserCircle className="h-8 w-8 md:h-10 md:w-10 lg:h-12 lg:w-12 text-gray-900" />
-              )}
-              <span className="ml-2 text-sm md:text-base lg:text-lg font-bold">
-                {user.displayName}
-              </span>
-            </li>
-          ) : (
-            <FaUserCircle className="h-8 w-8 md:h-10 md:w-10 lg:h-12 lg:w-12 text-gray-900" />
-          )}
+          
 
           {user ? (
             <button
