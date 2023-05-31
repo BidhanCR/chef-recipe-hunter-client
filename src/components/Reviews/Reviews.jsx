@@ -6,7 +6,7 @@ import { FaStar, FaRegStar } from "react-icons/fa";
 const Reviews = () => {
   const [reviews, setReviews] = useState([]);
   useEffect(() => {
-    fetch("https://foodie-frenzy-server-bidhancr.vercel.app/reviews")
+    fetch("https://foodie-frenzy-server-hazel.vercel.app/reviews")
       .then((response) => response.json())
       .then((data) => setReviews(data));
   }, []);

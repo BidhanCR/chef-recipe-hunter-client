@@ -8,7 +8,7 @@ const Recipes = () => {
   const [recipes, setRecipes] = useState([]);
 
   useEffect(() => {
-    fetch("https://foodie-frenzy-server-bidhancr.vercel.app/recipes")
+    fetch("https://foodie-frenzy-server-hazel.vercel.app/recipes")
       .then((response) => response.json())
       .then((data) => setRecipes(data));
   }, []);
@@ -34,7 +34,7 @@ const Recipes = () => {
                 className="btn btn-warning text-white w-full hover:bg-yellow-600"
                 onClick={() => {
                   toast.success(
-                    `${recipe.recipe_name} is now your favorite recipe!`
+                    `${recipe.name} is now your favorite recipe!`
                   );
                   event.target.disabled = true;
                 }}

@@ -24,7 +24,7 @@ const ChefRecipes = () => {
   };
 
   useEffect(() => {
-    fetch(`https://foodie-frenzy-server-bidhancr.vercel.app/chefs/${id}`)
+    fetch(`https://foodie-frenzy-server-hazel.vercel.app/chefs/${id}`)
       .then((response) => response.json())
       .then((data) => setChef(data));
   }, [id]);

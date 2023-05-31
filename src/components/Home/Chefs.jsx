@@ -7,7 +7,7 @@ const Chefs = () => {
   const [chefs, setChefs] = useState([]);
 
   useEffect(() => {
-    fetch("https://foodie-frenzy-server-bidhancr.vercel.app/")
+    fetch("https://foodie-frenzy-server-hazel.vercel.app/")
       .then((response) => response.json())
       .then((data) => setChefs(data));
   }, []);

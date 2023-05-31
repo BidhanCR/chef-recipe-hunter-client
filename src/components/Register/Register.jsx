@@ -58,7 +58,7 @@ const Register = () => {
         event.target.reset();
         setSuccess("User has created successfully");
         handleLogOut();
-        // sendVerificationEmail(result.user);
+        sendVerificationEmail(result.user);
         updateUserData(result.user, name, photo);
       })
       .catch((error) => {
@@ -83,12 +83,12 @@ const Register = () => {
       });
   };
 
-  // const sendVerificationEmail = (user) => {
-  //   sendEmailVerification(user).then((result) => {
-  //     console.log(result);
-  //     alert("Please verify your email address");
-  //   });
-  // };
+  const sendVerificationEmail = (user) => {
+    sendEmailVerification(user).then((result) => {
+      console.log(result);
+      alert("Please verify your email address");
+    });
+  };
 
   // updating user profile data
   const updateUserData = (user, name, photo) => {
